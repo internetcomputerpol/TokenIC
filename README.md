@@ -1,4 +1,4 @@
-![Opis obrazka](images/back.png)
+![TokenIC](images/back.png)
                            
    ver 1.0 
 
