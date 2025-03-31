@@ -23,8 +23,8 @@ fi
 echo -e "\033[1;36m1️⃣  Tworzenie Canistra icrc1_ledger_canister... ⛽️\033[0m"
 echo "---------------------------------------------------------------";
 echo '1) Wybierz Motoko'
-echo '2) Wybierz None'
-echo '3) Nie wybieraj nic [KLIKNIJ ENTER]'
+echo '2) Wybierz Frontend ( albo bez None)'
+echo '3) Jeżeli potrzebujesz wybierz II [KLIKNIJ ENTER]'
 echo "---------------------------------------------------------------";
 dfx new icrc1_ledger_canister
 cd icrc1_ledger_canister
@@ -56,29 +56,40 @@ echo -e "\033[1;36m2️⃣  Sprawdzam dostępne identity...🔎\033[0m"
 echo '4) Wybierz Minter Identity konto mintujące token ⛏'
 echo "---------------------------------------------------------------"
 
-identity_list=$(dfx identity list | awk '{print $1}' | tail -n +2)  
-identity_list="nowe
-$identity_list"
+# Pobierz listę istniejących identity
+identity_list=$(dfx identity list | awk '{print $1}' | tail -n +2)
+options=("nowe" $identity_list)
 
-echo "Wybierz identity wpisując liczbę np. 1, 2, 3 itp"
-echo "lub wpisz słowo 'nowe' aby stworzyć nowe identity"
+echo "Wybierz identity ( dla Mintera  wpisując liczbę np.  2, 3 , 4 itp"
+echo "Za liczbami masz odpowiadajace im identity"
+echo "Wpisz 1 aby stworzyć nowe identity"
 echo "po wpisaniu zatwierdź klikając [ENTER]"
 echo "---------------------------------------------------------------"
-select selected_identity in $identity_list; do
-    if [ "$selected_identity" == "nowe" ]; then
 
-        dfx identity new
-        echo "Wprowadź nazwę nowego identity:"
-        read selected_identity
-        break
-    elif [ -n "$selected_identity" ]; then
-        
-        echo "Wybrane identity: $selected_identity"
-        dfx identity use "$selected_identity"
-        break
-    else
+select selected_identity in "${options[@]}"; do
+    if [ -z "$selected_identity" ]; then
         echo "Niepoprawny wybór, spróbuj ponownie."
+        continue
     fi
+
+    if [ "$selected_identity" == "nowe" ]; then
+        echo "Podaj nazwę identity:"
+        read selected_identity
+
+        # Sprawdź czy identity istnieje
+        if dfx identity list | grep -q "^$selected_identity$"; then
+            echo "Identity istnieje, używam utworzonego: $selected_identity"
+            dfx identity use "$selected_identity"
+        else
+            echo "Identity nie istnieje, tworzę nowe: $selected_identity"
+            dfx identity new "$selected_identity"
+            dfx identity use "$selected_identity"
+        fi
+    else
+        echo "Identity istnieje, używam: $selected_identity"
+        dfx identity use "$selected_identity"
+    fi
+    break  # Przerywamy pętlę po poprawnym wyborze
 done
 
 export MINTER_ACCOUNT_ID=$(dfx identity get-principal)
@@ -106,19 +117,42 @@ echo "Na jakie konto mają ZOSTAĆ PRZELANE WSZYSTKIE TOKENY po wymintowaniu �
 echo "Nie podawaj tego samego konta co mintuje tylko inne  ❌"
 echo "Konto mintujące nie może przelewać tokenów ❌ 💸 ⛔️"
 echo "---------------------------------------------------------------"
-echo " ";
-identity_list=$(dfx identity list | awk '{print $1}' | tail -n +2)
+echo " "
 
-select deploy_identity in $identity_list; do
-    if [ -n "$deploy_identity" ]; then
+identity_list=$(dfx identity list | awk '{print $1}' | tail -n +2)
+options=("nowe" $identity_list)
+
+echo "Wybierz identity wpisując liczbę np. 2, 3, 4 itp."
+echo "Wybierz 1 aby stworzyć nowe identity ( nowe konto )."
+echo "---------------------------------------------------------------"
+
+select deploy_identity in "${options[@]}"; do
+    if [ -z "$deploy_identity" ]; then
+        echo "Niepoprawny wybór, spróbuj ponownie ❌"
+        continue
+    fi
+    
+    if [ "$deploy_identity" == "nowe" ]; then
+        echo "Podaj nazwę nowego identity:"
+        read deploy_identity
+        
+        if dfx identity list | grep -q "^$deploy_identity$"; then
+            echo "Identity istnieje, używam istniejącego: $deploy_identity"
+            dfx identity use "$deploy_identity"
+        else
+            echo "Identity nie istnieje, tworzę nowe: $deploy_identity"
+            dfx identity new "$deploy_identity"
+            dfx identity use "$deploy_identity"
+        fi
+    else
         echo "Wybrane identity: $deploy_identity"
         dfx identity use "$deploy_identity"
-        export DEPLOY_ID=$(dfx identity get-principal)
-        break
-    else
-        echo "Niepoprawny wybór, spróbuj ponownie ❌"
     fi
+    
+    export DEPLOY_ID=$(dfx identity get-principal)
+    break
 done
+
 
 clear
 
@@ -176,4 +210,3 @@ dfx deploy icrc1_ledger_canister --argument "(variant {Init = record {
      };
   }
 })"
-
