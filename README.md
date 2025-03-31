@@ -39,7 +39,7 @@
 
       > bash token_list.sh
       >----------------------
-      >bash transfer_token.sh
+      > bash transfer_token.sh
 
  
 
