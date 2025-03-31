@@ -15,7 +15,9 @@
       https://github.com/internetcomputerpol/ICP_Developerka_install/blob/main/ICP_Developerka_install.sh
    
    2) Uruchamiamy skrypt poleceniem
-      Bash tokenic.sh
+
+      > Bash tokenic.sh
+      
       Postępujemy zgodnie z kolejnymi krokami opisanymi kolejno
       alternatywnie na kanale InternetComputerPL znajdziecie
       tutorial obsługi skryptu i omównienie tworzenia tokenów
@@ -35,8 +37,8 @@
 
        W terminalu wpisujemy polecenie:
 
-      bash token_list.sh
-      bash transfer_token.sh
+      > bash token_list.sh
+      >bash transfer_token.sh
 
  
 
