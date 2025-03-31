@@ -26,6 +26,11 @@
 
       Link: https://internetcomputer.org/docs/tutorials/developer-liftoff/level-4/4.2-icrc-tokens
 
-      
+       Skrypty Token_List i Transfer
+       Ułatwiają wyświetlanie salda tokena dla danego Identity przy pomocy narzędzia dfx
+
+       Skrypt transer ułatwia i automatyzuje transfery pomiędzy Identity.
+
+ 
 
       -------------------------------------- Niech kod będzie z Wami
