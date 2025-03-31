@@ -31,6 +31,11 @@
 
        Skrypt transer ułatwia i automatyzuje transfery pomiędzy Identity.
 
+       Uruchamianie skryptów tak jak w przypadku tokenic.sh
+
+       W terminalu wpisujemy polecenie: bash token_list.sh
+                                        bash transfer_token.sh
+
  
 
       -------------------------------------- Niech kod będzie z Wami
