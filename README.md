@@ -14,9 +14,7 @@
       Link do skryptu z Tutoriala konfiguracji dfx:
       https://github.com/internetcomputerpol/ICP_Developerka_install/blob/main/ICP_Developerka_install.sh
    
-   2) Uruchamiamy skrypt poleceniem
-
-      > Bash tokenic.sh
+   2) 
       
       Postępujemy zgodnie z kolejnymi krokami opisanymi kolejno
 
@@ -24,6 +22,10 @@
       + Przed Wrożeniem kanistra za pomocą dfx deploy zainstaluj bibliotekę autclient
         
         > npm i --save @dfinity/auth-client
+
+      Uruchamiamy skrypt poleceniem
+
+      > Bash tokenic.sh
 
       
       alternatywnie na kanale InternetComputerPL znajdziecie
