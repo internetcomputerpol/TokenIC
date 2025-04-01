@@ -19,6 +19,13 @@
       > Bash tokenic.sh
       
       Postępujemy zgodnie z kolejnymi krokami opisanymi kolejno
+
+      + dfx.json zostanie nadpisany na backend i frontend z linkami do plików candid *.did
+      + Przed Wrożeniem kanistra za pomocą dfx deploy zainstaluj bibliotekę autclient
+        
+        > npm i --save @dfinity/auth-client
+
+      
       alternatywnie na kanale InternetComputerPL znajdziecie
       tutorial obsługi skryptu i omównienie tworzenia tokenów
       w standardzie ICRC-1 / 2 na IC.
